@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `oauth_client_details`;
 CREATE TABLE `oauth_client_details` (
-  `client_id` varchar(256) CHARACTER SET utf8 NOT NULL,
+  `client_id` varchar(50) CHARACTER SET utf8 NOT NULL,
   `resource_ids` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
   `client_secret` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
   `scope` varchar(256) CHARACTER SET utf8 DEFAULT NULL,

@@ -17,4 +17,10 @@ public class OrderController {
         return "order/list";
     }
 
+    @GetMapping("/")
+    public void ssss(String code) {
+
+        System.out.println("dddddd");
+    }
+
 }

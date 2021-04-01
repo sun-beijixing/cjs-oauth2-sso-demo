@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         if ("local".equals(environmentUtils.getActiveProfile())) {
             http.authorizeRequests().anyRequest().permitAll();
         }else {
-            http.logout().logoutSuccessUrl("http://localhost:8080/logout")
+            http.logout().logoutSuccessUrl("http://localhost:8081/logout")
                     .and()
                     .authorizeRequests()
                     .anyRequest().authenticated()
