@@ -1,5 +1,7 @@
 package com.cjs.sso.config;
 
+import com.cjs.sso.handler.OauthLogoutHandler;
+import com.cjs.sso.handler.OauthLogoutSuccessHandler;
 import com.cjs.sso.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+
+import javax.annotation.Resource;
 
 /**
  * @author ChengJianSheng
@@ -19,6 +24,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    /**
+     * 登出URL
+     */
+    String LOGOUT_URL = "/oauth/remove/token";
 
     @Autowired
     private MyUserDetailsService userDetailsService;
@@ -43,6 +53,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and().csrf().disable().cors();
+
+        http.authorizeRequests()
+                .anyRequest()
+                //授权服务器关闭basic认证
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl(LOGOUT_URL)
+                .logoutSuccessHandler(new OauthLogoutSuccessHandler())
+                .addLogoutHandler(oauthLogoutHandler())
+                .clearAuthentication(true);
+    }
+
+    @Bean
+    public OauthLogoutHandler oauthLogoutHandler() {
+        return new OauthLogoutHandler();
     }
 
     @Bean
